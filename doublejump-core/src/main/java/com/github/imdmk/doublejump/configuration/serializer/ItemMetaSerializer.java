@@ -1,5 +1,5 @@
 package com.github.imdmk.doublejump.configuration.serializer;
-
+import java.util.stream.Collectors; 
 import com.github.imdmk.doublejump.util.ComponentUtil;
 import dev.triumphteam.gui.builder.item.ItemBuilder;
 import eu.okaeri.configs.schema.GenericsDeclaration;
