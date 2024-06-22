@@ -24,29 +24,30 @@ public class ItemMetaSerializer implements ObjectSerializer<ItemMeta> {
         return ItemMeta.class.isAssignableFrom(type);
     }
 
-    @Override
-    public void serialize(@NonNull ItemMeta itemMeta, @NonNull SerializationData data, @NonNull GenericsDeclaration generics) {
-        if (itemMeta.hasDisplayName()) {
-            Component displayName = ComponentUtil.deserialize(itemMeta.getDisplayName());
-            data.add("display-name", displayName, Component.class);
-        }
-
-        if (itemMeta.hasLore()) {
-            List<Component> lore = itemMeta.getLore().stream()
-                    .map(ComponentUtil::deserialize)
-                    .toList();
-
-            data.addCollection("lore", lore, Component.class);
-        }
-
-        if (itemMeta.hasEnchants()) {
-            data.addAsMap("enchantments", itemMeta.getEnchants(), Enchantment.class, Integer.class);
-        }
-
-        if (!itemMeta.getItemFlags().isEmpty()) {
-            data.addCollection("item-flags", itemMeta.getItemFlags(), ItemFlag.class);
-        }
+   @Override
+public void serialize(@NonNull ItemMeta itemMeta, @NonNull SerializationData data, @NonNull GenericsDeclaration generics) {
+    if (itemMeta.hasDisplayName()) {
+        Component displayName = ComponentUtil.deserialize(itemMeta.getDisplayName());
+        data.add("display-name", displayName, Component.class);
     }
+
+    if (itemMeta.hasLore()) {
+        List<Component> lore = itemMeta.getLore().stream()
+                .map(ComponentUtil::deserialize)
+                .collect(Collectors.toList());
+
+        data.addCollection("lore", lore, Component.class);
+    }
+
+    if (itemMeta.hasEnchants()) {
+        data.addAsMap("enchantments", itemMeta.getEnchants(), Enchantment.class, Integer.class);
+    }
+
+    if (!itemMeta.getItemFlags().isEmpty()) {
+        data.addCollection("item-flags", itemMeta.getItemFlags(), ItemFlag.class);
+    }
+}
+
 
     @Override
     public ItemMeta deserialize(@NonNull DeserializationData data, @NonNull GenericsDeclaration generics) {
